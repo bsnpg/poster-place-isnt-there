@@ -9,9 +9,12 @@ a place that isn't there: Saranjana, the legendary unseen city of Borneo —
 a floating isle crowned with a white temple drifts above a turquoise sea at
 golden hour, and the sea itself rises to meet it in a single upward
 waterfall. Sailboats cross below, a couple watches from a stone terrace, and
-bougainvillea spills over the frame. The whole poster is drawn in code with
-Python's Pillow library (see `make_image.py`) — flat vector art-deco, one
-impossible wonder, and a name big enough to read in two seconds.
+bougainvillea spills over the frame. The poster is a realistic, painterly
+illustration — detailed, lived-in, approaching a real place, not a flat
+cartoon: the scene (`scene.png`) is a hand-painted-style illustration, and
+the title, tagline and frame are composited with Python's Pillow library
+(see `make_image.py`) — one impossible wonder, and a name big enough to read
+in two seconds.
 
 ## Run it
 
