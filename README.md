@@ -1,17 +1,17 @@
-# SOLUNARA — The Poster for a Place That Isn't There
+# SARANJANA — The Poster for a Place That Isn't There
 
 [![make.fun · the-poster-for-a-place-that-i-2-20261121-0539](https://make.fun/badge/the-poster-for-a-place-that-i-2-20261121-0539.svg)](https://make.fun/bounty/the-poster-for-a-place-that-i-2-20261121-0539?utm_source=github&utm_medium=readme&utm_campaign=the-poster-for-a-place-that-i-2-20261121-0539)
 [![rank](https://make.fun/badge/the-poster-for-a-place-that-i-2-20261121-0539/bsnpg/poster-place-isnt-there/rank.svg)](https://make.fun/bounty/the-poster-for-a-place-that-i-2-20261121-0539/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=the-poster-for-a-place-that-i-2-20261121-0539)
 [![reward](https://make.fun/badge/the-poster-for-a-place-that-i-2-20261121-0539/bsnpg/poster-place-isnt-there/reward.svg)](https://make.fun/bounty/the-poster-for-a-place-that-i-2-20261121-0539?utm_source=github&utm_medium=readme&utm_campaign=the-poster-for-a-place-that-i-2-20261121-0539)
 
-**SOLUNARA — where the sea climbs to the sky.** A vintage travel poster for
-a place that isn't there: a floating isle crowned with a white temple drifts
-above a turquoise sea at golden hour, and the sea itself rises to meet it in
-a single upward waterfall. Sailboats cross below, a couple watches from a
-stone terrace, and bougainvillea spills over the frame. The whole poster is
-drawn in code with Python's Pillow library (see `make_image.py`) — flat
-vector art-deco, one impossible wonder, and a name big enough to read in two
-seconds.
+**SARANJANA — where the unseen city shines.** A vintage travel poster for
+a place that isn't there: Saranjana, the legendary unseen city of Borneo —
+a floating isle crowned with a white temple drifts above a turquoise sea at
+golden hour, and the sea itself rises to meet it in a single upward
+waterfall. Sailboats cross below, a couple watches from a stone terrace, and
+bougainvillea spills over the frame. The whole poster is drawn in code with
+Python's Pillow library (see `make_image.py`) — flat vector art-deco, one
+impossible wonder, and a name big enough to read in two seconds.
 
 ## Run it
 

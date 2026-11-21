@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""SOLUNARA — The Poster for a Place That Isn't There.
+"""SARANJANA — The Poster for a Place That Isn't There.
 Flat-vector art-deco travel poster, drawn procedurally with PIL.
-A floating isle with a temple; the sea climbs UP to it in a waterfall.
+Saranjana, the unseen city of Borneo: a floating isle with a temple;
+the sea climbs UP to it in a waterfall. Golden hour, dramatic light.
 1024x1024, deterministic (no randomness, no network)."""
 import math
 from PIL import Image, ImageDraw, ImageFont
@@ -15,9 +16,9 @@ CREAM = (250, 240, 214)
 GOLD = (212, 164, 84)
 GOLD_LT = (233, 196, 120)
 INK = (38, 32, 48)
-SEA_DK = (16, 92, 110)
-SEA_MD = (23, 128, 148)
-SEA_LT = (64, 178, 186)
+SEA_DK = (8, 74, 102)
+SEA_MD = (12, 112, 142)
+SEA_LT = (38, 164, 180)
 ROCK = (58, 52, 74)
 ROCK_LT = (84, 76, 104)
 WHITE = (250, 246, 236)
@@ -63,11 +64,11 @@ def main():
 
     # ---- sky: deep indigo -> rose -> peach -> gold ----
     sky_stops = [
-        (Y0, (44, 44, 96)),
-        (220, (94, 78, 138)),
-        (380, (188, 110, 130)),
-        (520, (238, 164, 118)),
-        (HOR, (246, 204, 130)),
+        (Y0, (28, 26, 86)),
+        (220, (86, 60, 142)),
+        (380, (198, 86, 128)),
+        (520, (242, 138, 90)),
+        (HOR, (252, 190, 108)),
     ]
     for i in range(len(sky_stops) - 1):
         y0, c0 = sky_stops[i]
@@ -81,12 +82,29 @@ def main():
         r = 2 if (sx + sy) % 3 else 3
         d.ellipse([sx - r, sy - r, sx + r, sy + r], fill=(250, 240, 200))
 
-    # ---- sun: pale gold disc + glow, low right ----
-    sx, sy, sr = 720, 470, 66
-    for rr, alpha in [(110, 40), (92, 60), (78, 90)]:
-        d.ellipse([sx - rr, sy - rr, sx + rr, sy + rr], fill=(244, 214, 140, alpha))
-    d.ellipse([sx - sr, sy - sr, sx + sr, sy + sr], fill=(252, 226, 150))
-    d.ellipse([sx - sr + 10, sy - sr + 10, sx + sr - 10, sy + sr - 10], fill=(253, 234, 176))
+    # ---- clouds: warm-lit, drifting ----
+    for cx, cy, cw in [(180, 260, 150), (830, 240, 170), (620, 180, 120), (330, 330, 110)]:
+        for ox, oy, rr in [(-cw // 3, 0, 26), (0, -12, 32), (cw // 3, 2, 24), (cw // 5, 8, 20)]:
+            d.ellipse([cx + ox - rr, cy + oy - rr, cx + ox + rr, cy + oy + rr],
+                      fill=(250, 200, 160, 90))
+    # ---- birds ----
+    for bx, by, bs in [(300, 300, 10), (350, 280, 8), (700, 210, 9), (760, 250, 7), (420, 240, 8)]:
+        d.line([(bx - bs, by + 4), (bx, by), (bx + bs, by + 4)], fill=(40, 32, 54), width=3)
+
+    # ---- sun: big golden-hour disc + strong glow + rays, low right ----
+    sx, sy, sr = 724, 468, 80
+    for rr, alpha in [(150, 34), (124, 52), (102, 80), (88, 110)]:
+        d.ellipse([sx - rr, sy - rr, sx + rr, sy + rr], fill=(246, 206, 120, alpha))
+    # sun rays
+    for k in range(12):
+        ang = math.pi * 2 * k / 12 + 0.26
+        x0 = sx + int(math.cos(ang) * (sr + 8))
+        y0 = sy + int(math.sin(ang) * (sr + 8))
+        x1 = sx + int(math.cos(ang) * (sr + 34))
+        y1 = sy + int(math.sin(ang) * (sr + 34))
+        d.line([(x0, y0), (x1, y1)], fill=(252, 220, 140, 130), width=5)
+    d.ellipse([sx - sr, sy - sr, sx + sr, sy + sr], fill=(253, 222, 138))
+    d.ellipse([sx - sr + 12, sy - sr + 12, sx + sr - 12, sy + sr - 12], fill=(254, 234, 178))
 
     # ---- sea ----
     vgrad(d, X0, HOR, X1, 948, SEA_LT, SEA_DK)
@@ -107,19 +125,20 @@ def main():
     fall_top, fall_bot = 428, HOR
     for i, yy in enumerate(range(fall_bot, fall_top, -14)):
         t = (fall_bot - yy) / (fall_bot - fall_top)  # 0 bottom -> 1 top
-        half = int(46 - 26 * t)
+        half = int(60 - 32 * t)
         sway = int(8 * math.sin(yy / 46.0))
         cx = 512 + sway
         col = lerp((214, 236, 240), (150, 205, 220), t)
         d.rounded_rectangle([cx - half, yy - 7, cx + half, yy + 7], radius=7, fill=col)
     # foam ring where it leaves the sea
-    for k in range(9):
-        fx = 512 + (k - 4) * 16
+    for k in range(11):
+        fx = 512 + (k - 5) * 16
         fr = 7 + (k % 3) * 2
         d.ellipse([fx - fr, HOR - 6 - fr, fx + fr, HOR - 6 + fr],
                   fill=(240, 248, 250))
     # sparkles rising along the fall
-    for k, (px, py) in enumerate([(470, 600), (552, 560), (488, 520), (540, 480), (500, 450)]):
+    for k, (px, py) in enumerate([(470, 600), (552, 560), (488, 520), (540, 480), (500, 450),
+                                  (452, 580), (570, 510)]):
         r = 4 + (k % 2) * 2
         d.line([(px - r, py), (px + r, py)], fill=(255, 255, 255), width=2)
         d.line([(px, py - r), (px, py + r)], fill=(255, 255, 255), width=2)
@@ -131,6 +150,14 @@ def main():
     d.polygon(isle, fill=ROCK)
     d.polygon([(370, 388), (430, 392), (470, 384), (540, 388), (600, 380),
                (660, 392), (690, 408), (640, 430), (380, 428)], fill=ROCK_LT)
+    # golden rim light on the isle's top edge
+    d.line([(370, 388), (430, 392), (470, 384), (540, 388), (600, 380), (660, 392)],
+           fill=(244, 206, 120), width=4)
+    # distant second islet (hazy, smaller) — depth
+    d.polygon([(150, 470), (190, 458), (240, 462), (268, 474), (230, 500), (180, 498)],
+              fill=(96, 88, 118))
+    d.rectangle([196, 440, 228, 458], fill=(232, 222, 200))
+    d.polygon([(192, 440), (232, 440), (212, 428)], fill=(232, 222, 200))
     # rock shading strokes
     for (ax, ay, bx, by) in [(400, 430, 470, 490), (560, 430, 520, 495), (620, 420, 580, 470)]:
         d.line([(ax, ay), (bx, by)], fill=(40, 36, 54), width=4)
@@ -158,6 +185,7 @@ def main():
         d.line([(bx, by - 34 * s), (bx, by - 40 * s)], fill=(44, 38, 52), width=2)
     sailboat(210, 800, 1.0)
     sailboat(830, 760, 0.8)
+    sailboat(660, 850, 1.15)
 
     # ---- terrace (bottom) ----
     d.rectangle([X0, 948, X1, Y1], fill=(232, 222, 198))
@@ -187,7 +215,7 @@ def main():
     def bougainvillea(cx, cy, spread):
         import random
         rnd = random.Random(7)
-        for _ in range(46):
+        for _ in range(70):
             ox = rnd.randint(-spread, spread)
             oy = rnd.randint(-spread // 2, spread // 2)
             r = rnd.randint(4, 9)
@@ -197,19 +225,21 @@ def main():
             ox = rnd.randint(-spread, spread)
             oy = rnd.randint(-spread // 2, spread // 2)
             d.ellipse([cx + ox - 3, cy + oy - 3, cx + ox + 3, cy + oy + 3], fill=(46, 96, 52))
-    bougainvillea(70, 980, 60)
-    bougainvillea(950, 985, 55)
-    bougainvillea(60, 880, 34)
-    bougainvillea(960, 900, 30)
+    bougainvillea(70, 980, 66)
+    bougainvillea(950, 985, 62)
+    bougainvillea(60, 880, 40)
+    bougainvillea(960, 900, 36)
+    bougainvillea(180, 996, 40)
+    bougainvillea(860, 1000, 38)
 
     # ---- title ----
     f_big = ImageFont.truetype(SERIF_B, 118)
     f_sub = ImageFont.truetype(SANS_B, 30)
     f_tag = ImageFont.truetype(SANS, 22)
     # soft shadow then cream face
-    text_center(d, 514, 62, "SOLUNARA", f_big, (120, 84, 40), tracking=10)
-    text_center(d, 512, 60, "SOLUNARA", f_big, CREAM, tracking=10)
-    text_center(d, 512, 184, "WHERE THE SEA CLIMBS TO THE SKY", f_sub, GOLD_LT, tracking=4)
+    text_center(d, 514, 62, "SARANJANA", f_big, (120, 84, 40), tracking=10)
+    text_center(d, 512, 60, "SARANJANA", f_big, CREAM, tracking=10)
+    text_center(d, 512, 184, "WHERE THE UNSEEN CITY SHINES", f_sub, GOLD_LT, tracking=4)
 
     img.save("entry.png", optimize=True)
     print("saved entry.png")
